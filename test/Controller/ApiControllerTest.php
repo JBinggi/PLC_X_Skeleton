@@ -33,6 +33,8 @@ class ApiControllerTest extends AbstractHttpControllerTestCase {
         // etc.
         $configOverrides = [];
 
+        $this->setApplicationConfig($configOverrides);
+
         parent::setUp();
     }
 

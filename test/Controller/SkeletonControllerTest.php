@@ -31,6 +31,7 @@ class SkeletonControllerTest extends AbstractHttpControllerTestCase {
         // such as sample view templates, path stacks, module_listener_options,
         // etc.
         $configOverrides = [];
+        $this->setApplicationConfig($configOverrides);
 
         parent::setUp();
     }
