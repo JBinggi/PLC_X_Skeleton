@@ -1,11 +1,11 @@
 <?php
 /**
- * ContactTable.php - Contact Table
+ * SkeletonTable.php - Skeleton Table
  *
- * Table Model for Contact
+ * Table Model for Skeleton
  *
  * @category Model
- * @package Contact
+ * @package Skeleton
  * @author Verein onePlace
  * @copyright (C) 2020 Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
@@ -13,7 +13,7 @@
  * @since 1.0.0
  */
 
-namespace OnePlace\Contact\Model;
+namespace OnePlace\Skeleton\Model;
 
 use Application\Controller\CoreController;
 use Application\Model\CoreEntityTable;
@@ -24,10 +24,10 @@ use Laminas\Db\Sql\Where;
 use Laminas\Paginator\Paginator;
 use Laminas\Paginator\Adapter\DbSelect;
 
-class ContactTable extends CoreEntityTable {
+class SkeletonTable extends CoreEntityTable {
 
     /**
-     * ContactTable constructor.
+     * SkeletonTable constructor.
      *
      * @param TableGateway $tableGateway
      * @since 1.0.0
@@ -36,11 +36,11 @@ class ContactTable extends CoreEntityTable {
         parent::__construct($tableGateway);
 
         # Set Single Form Name
-        $this->sSingleForm = 'contact-single';
+        $this->sSingleForm = 'skeleton-single';
     }
 
     /**
-     * Fetch All Contact Entities based on Filters
+     * Fetch All Skeleton Entities based on Filters
      *
      * @param bool $bPaginated
      * @return Paginator Paginated Table Connection
@@ -53,7 +53,7 @@ class ContactTable extends CoreEntityTable {
         if ($bPaginated) {
             # Create result set for user entity
             $resultSetPrototype = new ResultSet();
-            $resultSetPrototype->setArrayObjectPrototype(new Contact($this->oTableGateway->getAdapter()));
+            $resultSetPrototype->setArrayObjectPrototype(new Skeleton($this->oTableGateway->getAdapter()));
 
             # Create a new pagination adapter object
             $oPaginatorAdapter = new DbSelect(
@@ -74,7 +74,7 @@ class ContactTable extends CoreEntityTable {
     }
 
     /**
-     * Get Contact Entity
+     * Get Skeleton Entity
      *
      * @param int $id
      * @return mixed
@@ -82,11 +82,11 @@ class ContactTable extends CoreEntityTable {
      */
     public function getSingle($id) {
         $id = (int) $id;
-        $rowset = $this->oTableGateway->select(['Contact_ID' => $id]);
+        $rowset = $this->oTableGateway->select(['Skeleton_ID' => $id]);
         $row = $rowset->current();
         if (! $row) {
             throw new \RuntimeException(sprintf(
-                'Could not find contact with identifier %d',
+                'Could not find skeleton with identifier %d',
                 $id
             ));
         }
@@ -95,20 +95,20 @@ class ContactTable extends CoreEntityTable {
     }
 
     /**
-     * Save Contact Entity
+     * Save Skeleton Entity
      *
-     * @param Contact $oContact
-     * @return int Contact ID
+     * @param Skeleton $oSkeleton
+     * @return int Skeleton ID
      * @since 1.0.0
      */
-    public function saveSingle(Contact $oContact) {
+    public function saveSingle(Skeleton $oSkeleton) {
         $aData = [
-            'label' => $oContact->label,
+            'label' => $oSkeleton->label,
         ];
 
-        $aData = $this->attachDynamicFields($aData,$oContact);
+        $aData = $this->attachDynamicFields($aData,$oSkeleton);
 
-        $id = (int) $oContact->id;
+        $id = (int) $oSkeleton->id;
 
         if ($id === 0) {
             # Add Metadata
@@ -117,19 +117,19 @@ class ContactTable extends CoreEntityTable {
             $aData['modified_by'] = CoreController::$oSession->oUser->getID();
             $aData['modified_date'] = date('Y-m-d H:i:s',time());
 
-            # Insert Contact
+            # Insert Skeleton
             $this->oTableGateway->insert($aData);
 
             # Return ID
             return $this->oTableGateway->lastInsertValue;
         }
 
-        # Check if Contact Entity already exists
+        # Check if Skeleton Entity already exists
         try {
             $this->getSingle($id);
         } catch (\RuntimeException $e) {
             throw new \RuntimeException(sprintf(
-                'Cannot update contact with identifier %d; does not exist',
+                'Cannot update skeleton with identifier %d; does not exist',
                 $id
             ));
         }
@@ -138,8 +138,8 @@ class ContactTable extends CoreEntityTable {
         $aData['modified_by'] = CoreController::$oSession->oUser->getID();
         $aData['modified_date'] = date('Y-m-d H:i:s',time());
 
-        # Update Contact
-        $this->oTableGateway->update($aData, ['Contact_ID' => $id]);
+        # Update Skeleton
+        $this->oTableGateway->update($aData, ['Skeleton_ID' => $id]);
 
         return $id;
     }
