@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-namespace OnePlace\SkeletonTest\Controller;
+namespace OnePlaceTest\Skeleton\Controller;
 
 use OnePlace\Skeleton\Controller\SkeletonController;
 use Laminas\Stdlib\ArrayUtils;

@@ -20,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OnePlace\\Skeleton\\": "module/Skeleton/src/"
+            "OnePlace\\Skeleton\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OnePlace\\SkeletonTest\\": "module/Skeleton/test/"
+            "OnePlaceTest\\Skeleton\\": "test/"
         }
     },
     "scripts": {

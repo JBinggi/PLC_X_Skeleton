@@ -18,8 +18,8 @@ declare(strict_types=1);
 namespace OnePlace\Skeleton\Controller;
 
 use Application\Controller\CoreController;
+use OnePlace\Skeleton\Model\SkeletonTable;
 use Laminas\View\Model\ViewModel;
-use Skeleton\Model\SkeletonTable;
 use Laminas\Db\Adapter\AdapterInterface;
 
 class ApiController extends CoreController {

@@ -2,12 +2,12 @@
 <phpunit colors="true">
     <testsuites>
         <testsuite name="Skeleton Module Test Suite">
-            <directory>./module/Skeleton/test</directory>
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./module/*/src</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
 </phpunit>
