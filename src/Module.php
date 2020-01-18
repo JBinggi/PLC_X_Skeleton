@@ -13,7 +13,7 @@
  * @since 1.0.0
  */
 
-namespace Skeleton;
+namespace OnePlace\Skeleton;
 
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;

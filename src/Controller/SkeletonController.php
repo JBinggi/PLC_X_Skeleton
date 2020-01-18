@@ -15,7 +15,7 @@
 
 declare(strict_types=1);
 
-namespace Skeleton\Controller;
+namespace OnePlace\Skeleton\Controller;
 
 use Application\Controller\CoreController;
 use Laminas\View\Model\ViewModel;

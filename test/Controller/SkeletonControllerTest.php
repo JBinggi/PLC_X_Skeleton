@@ -15,9 +15,9 @@
 
 declare(strict_types=1);
 
-namespace SkeletonTest\Controller;
+namespace OnePlace\SkeletonTest\Controller;
 
-use Skeleton\Controller\SkeletonController;
+use OnePlace\Skeleton\Controller\SkeletonController;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Laminas\Session\Container;

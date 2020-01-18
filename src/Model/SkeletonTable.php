@@ -13,7 +13,7 @@
  * @since 1.0.0
  */
 
-namespace Skeleton\Model;
+namespace OnePlace\Skeleton\Model;
 
 use Application\Controller\CoreController;
 use Application\Model\CoreEntityTable;
