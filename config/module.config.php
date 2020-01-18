@@ -13,7 +13,7 @@
  * @since 1.0.0
  */
 
-namespace Skeleton;
+namespace OnePlace\Skeleton;
 
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
