@@ -2,10 +2,10 @@
 /**
  * Module.php - Module Class
  *
- * Module Class File for Skeleton Module
+ * Module Class File for Contact Module
  *
  * @category Config
- * @package Skeleton
+ * @package Contact
  * @author Verein onePlace
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
@@ -13,7 +13,7 @@
  * @since 1.0.0
  */
 
-namespace OnePlace\Skeleton;
+namespace OnePlace\Contact;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
@@ -41,16 +41,16 @@ class Module {
     public function getServiceConfig() : array {
         return [
             'factories' => [
-                # Skeleton Module - Base Model
-                Model\SkeletonTable::class => function($container) {
-                    $tableGateway = $container->get(Model\SkeletonTableGateway::class);
-                    return new Model\SkeletonTable($tableGateway);
+                # Contact Module - Base Model
+                Model\ContactTable::class => function($container) {
+                    $tableGateway = $container->get(Model\ContactTableGateway::class);
+                    return new Model\ContactTable($tableGateway);
                 },
-                Model\SkeletonTableGateway::class => function ($container) {
+                Model\ContactTableGateway::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Model\Skeleton($dbAdapter));
-                    return new TableGateway('skeleton', $dbAdapter, null, $resultSetPrototype);
+                    $resultSetPrototype->setArrayObjectPrototype(new Model\Contact($dbAdapter));
+                    return new TableGateway('contact', $dbAdapter, null, $resultSetPrototype);
                 },
             ],
         ];
@@ -62,18 +62,18 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
-                Controller\SkeletonController::class => function($container) {
+                Controller\ContactController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
-                    return new Controller\SkeletonController(
+                    return new Controller\ContactController(
                         $oDbAdapter,
-                        $container->get(Model\SkeletonTable::class)
+                        $container->get(Model\ContactTable::class)
                     );
                 },
                 Controller\ApiController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\ApiController(
                         $oDbAdapter,
-                        $container->get(Model\SkeletonTable::class)
+                        $container->get(Model\ContactTable::class)
                     );
                 },
             ],

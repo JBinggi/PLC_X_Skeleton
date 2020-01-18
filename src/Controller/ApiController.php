@@ -1,8 +1,8 @@
 <?php
 /**
- * ApiController.php - Skeleton Api Controller
+ * ApiController.php - Contact Api Controller
  *
- * Main Controller for Skeleton Api
+ * Main Controller for Contact Api
  *
  * @category Controller
  * @package Application
@@ -15,16 +15,16 @@
 
 declare(strict_types=1);
 
-namespace OnePlace\Skeleton\Controller;
+namespace OnePlace\Contact\Controller;
 
 use Application\Controller\CoreController;
-use OnePlace\Skeleton\Model\SkeletonTable;
+use OnePlace\Contact\Model\ContactTable;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Adapter\AdapterInterface;
 
 class ApiController extends CoreController {
     /**
-     * Skeleton Table Object
+     * Contact Table Object
      *
      * @since 1.0.0
      */
@@ -34,13 +34,13 @@ class ApiController extends CoreController {
      * ApiController constructor.
      *
      * @param AdapterInterface $oDbAdapter
-     * @param SkeletonTable $oTableGateway
+     * @param ContactTable $oTableGateway
      * @since 1.0.0
      */
-    public function __construct(AdapterInterface $oDbAdapter,SkeletonTable $oTableGateway) {
+    public function __construct(AdapterInterface $oDbAdapter,ContactTable $oTableGateway) {
         parent::__construct($oDbAdapter);
         $this->oTableGateway = $oTableGateway;
-        $this->sSingleForm = 'skeleton-single';
+        $this->sSingleForm = 'contact-single';
     }
 
     /**
@@ -52,14 +52,14 @@ class ApiController extends CoreController {
     public function indexAction() {
         $this->layout('layout/json');
 
-        $aReturn = ['state'=>'success','message'=>'Welcome to onePlace Skeleton API'];
+        $aReturn = ['state'=>'success','message'=>'Welcome to onePlace Contact API'];
         echo json_encode($aReturn);
 
         return false;
     }
 
     /**
-     * List all Entities of Skeletons
+     * List all Entities of Contacts
      *
      * @return bool - no View File
      * @since 1.0.0
@@ -68,7 +68,7 @@ class ApiController extends CoreController {
         $this->layout('layout/json');
 
         /**
-         * todo: enforce to use /api/skeleton instead of /skeleton/api so we can do security checks in main api controller
+         * todo: enforce to use /api/contact instead of /contact/api so we can do security checks in main api controller
         if(!\Application\Controller\ApiController::$bSecurityCheckPassed) {
             # Print List with all Entities
             $aReturn = ['state'=>'error','message'=>'no direct access allowed','aItems'=>[]];
@@ -79,7 +79,7 @@ class ApiController extends CoreController {
 
         $aItems = [];
 
-        # Get All Skeleton Entities from Database
+        # Get All Contact Entities from Database
         $oItemsDB = $this->oTableGateway->fetchAll(false);
         if(count($oItemsDB) > 0) {
             foreach($oItemsDB as $oItem) {
@@ -88,14 +88,14 @@ class ApiController extends CoreController {
         }
 
         # Print List with all Entities
-        $aReturn = ['state'=>'success','message'=>'List all Skeletons','aItems'=>$aItems];
+        $aReturn = ['state'=>'success','message'=>'List all Contacts','aItems'=>$aItems];
         echo json_encode($aReturn);
 
         return false;
     }
 
     /**
-     * Get a single Entity of Skeleton
+     * Get a single Entity of Contact
      *
      * @return bool - no View File
      * @since 1.0.0
@@ -103,21 +103,21 @@ class ApiController extends CoreController {
     public function getAction() {
         $this->layout('layout/json');
 
-        # Get Skeleton ID from route
+        # Get Contact ID from route
         $iItemID = $this->params()->fromRoute('id', 0);
 
-        # Try to get Skeleton
+        # Try to get Contact
         try {
             $oItem = $this->oTableGateway->getSingle($iItemID);
         } catch (\RuntimeException $e) {
             # Display error message
-            $aReturn = ['state'=>'error','message'=>'Skeleton not found','oItem'=>[]];
+            $aReturn = ['state'=>'error','message'=>'Contact not found','oItem'=>[]];
             echo json_encode($aReturn);
             return false;
         }
 
         # Print Entity
-        $aReturn = ['state'=>'success','message'=>'Skeleton found','oItem'=>$oItem];
+        $aReturn = ['state'=>'success','message'=>'Contact found','oItem'=>$oItem];
         echo json_encode($aReturn);
 
         return false;

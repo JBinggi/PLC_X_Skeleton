@@ -7,9 +7,9 @@ nav:
   - Reference:
       - 'Dynamic Fields': dynamic-fields.md
       - Examples: examples.md
-site_name: oneplace-skeleton
-site_description: "onePlace Application Skeleton Module"
-repo_url: 'https://github.com/OnePlc/PLC_X_Skeleton'
+site_name: oneplace-contact
+site_description: "onePlace Application Contact Module"
+repo_url: 'https://github.com/OnePlc/PLC_X_Contact'
 theme: readthedocs
 extra:
   project: onePlc

@@ -1,17 +1,18 @@
 {
-    "name": "oneplace/oneplace-skeleton",
-    "description": "onePlace Skeleton Module",
+    "name": "oneplace/oneplace-contact",
+    "description": "onePlace Contact Module",
     "type": "oneplace-module",
     "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "mvc",
-        "skeleton",
+        "contact",
         "oneplace",
         "framework"
     ],
     "require-dev": {
         "phpunit/phpunit": "^8",
+        "oneplace/oneplace-core": "^1.0.0",
         "laminas/laminas-test": "^3.3.0"
     },
     "require": {
@@ -20,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "OnePlace\\Skeleton\\": "src/"
+            "OnePlace\\Contact\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "OnePlaceTest\\Skeleton\\": "test/"
+            "OnePlaceTest\\Contact\\": "test/"
         }
     },
     "scripts": {
@@ -43,7 +44,7 @@
     },
     "extra": {
         "zf": {
-            "module": "OnePlace\\Skeleton"
+            "module": "OnePlace\\Contact"
         }
     }
 }

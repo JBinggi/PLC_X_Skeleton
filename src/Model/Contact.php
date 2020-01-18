@@ -1,11 +1,11 @@
 <?php
 /**
- * Skeleton.php - Skeleton Entity
+ * Contact.php - Contact Entity
  *
- * Entity Model for Skeleton
+ * Entity Model for Contact
  *
  * @category Model
- * @package Skeleton
+ * @package Contact
  * @author Verein onePlace
  * @copyright (C) 2020 Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
@@ -13,15 +13,15 @@
  * @since 1.0.0
  */
 
-namespace OnePlace\Skeleton\Model;
+namespace OnePlace\Contact\Model;
 
 use Application\Model\CoreEntityModel;
 
-class Skeleton extends CoreEntityModel {
+class Contact extends CoreEntityModel {
     public $label;
 
     /**
-     * Skeleton constructor.
+     * Contact constructor.
      *
      * @param AdapterInterface $oDbAdapter
      * @since 1.0.0
@@ -30,7 +30,7 @@ class Skeleton extends CoreEntityModel {
         parent::__construct($oDbAdapter);
 
         # Set Single Form Name
-        $this->sSingleForm = 'skeleton-single';
+        $this->sSingleForm = 'contact-single';
 
         # Attach Dynamic Fields to Entity Model
         $this->attachDynamicFields();
@@ -43,7 +43,7 @@ class Skeleton extends CoreEntityModel {
      * @since 1.0.0
      */
     public function exchangeArray(array $aData) {
-        $this->id = !empty($aData['Skeleton_ID']) ? $aData['Skeleton_ID'] : 0;
+        $this->id = !empty($aData['Contact_ID']) ? $aData['Contact_ID'] : 0;
         $this->label = !empty($aData['label']) ? $aData['label'] : '';
 
         $this->updateDynamicFields($aData);

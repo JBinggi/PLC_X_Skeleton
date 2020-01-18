@@ -1,11 +1,11 @@
 <?php
 /**
- * module.config.php - Skeleton Config
+ * module.config.php - Contact Config
  *
- * Main Config File for Skeleton Module
+ * Main Config File for Contact Module
  *
  * @category Config
- * @package Skeleton
+ * @package Contact
  * @author Verein onePlace
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
@@ -13,35 +13,35 @@
  * @since 1.0.0
  */
 
-namespace OnePlace\Skeleton;
+namespace OnePlace\Contact;
 
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
-    # Skeleton Module - Routes
+    # Contact Module - Routes
     'router' => [
         'routes' => [
             # Module Basic Route
-            'skeleton' => [
+            'contact' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/skeleton[/:action[/:id]]',
+                    'route' => '/contact[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller' => Controller\SkeletonController::class,
+                        'controller' => Controller\ContactController::class,
                         'action'     => 'index',
                     ],
                 ],
             ],
-            'skeleton-api' => [
+            'contact-api' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/skeleton/api[/:action[/:id]]',
+                    'route' => '/contact/api[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
@@ -58,7 +58,7 @@ return [
     # View Settings
     'view_manager' => [
         'template_path_stack' => [
-            'skeleton' => __DIR__ . '/../view',
+            'contact' => __DIR__ . '/../view',
         ],
     ],
 ];
