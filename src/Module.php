@@ -26,6 +26,13 @@ use Laminas\Session\Container;
 
 class Module {
     /**
+     * Module Version
+     *
+     * @since 1.0.4
+     */
+    const VERSION = '1.0.4';
+
+    /**
      * Load module config file
      *
      * @since 1.0.0
@@ -44,7 +51,7 @@ class Module {
                 # Skeleton Module - Base Model
                 Model\SkeletonTable::class => function($container) {
                     $tableGateway = $container->get(Model\SkeletonTableGateway::class);
-                    return new Model\SkeletonTable($tableGateway);
+                    return new Model\SkeletonTable($tableGateway,$container);
                 },
                 Model\SkeletonTableGateway::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
@@ -66,14 +73,16 @@ class Module {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\SkeletonController(
                         $oDbAdapter,
-                        $container->get(Model\SkeletonTable::class)
+                        $container->get(Model\SkeletonTable::class),
+                        $container
                     );
                 },
                 Controller\ApiController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\ApiController(
                         $oDbAdapter,
-                        $container->get(Model\SkeletonTable::class)
+                        $container->get(Model\SkeletonTable::class),
+                        $container
                     );
                 },
             ],

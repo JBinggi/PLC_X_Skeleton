@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace OnePlace\Skeleton\Controller;
 
 use Application\Controller\CoreController;
+use Application\Model\CoreEntityModel;
 use OnePlace\Skeleton\Model\Skeleton;
 use OnePlace\Skeleton\Model\SkeletonTable;
 use Laminas\View\Model\ViewModel;
@@ -38,10 +39,17 @@ class SkeletonController extends CoreController {
      * @param SkeletonTable $oTableGateway
      * @since 1.0.0
      */
-    public function __construct(AdapterInterface $oDbAdapter,SkeletonTable $oTableGateway) {
-        parent::__construct($oDbAdapter);
+    public function __construct(AdapterInterface $oDbAdapter,SkeletonTable $oTableGateway,$oServiceManager) {
         $this->oTableGateway = $oTableGateway;
         $this->sSingleForm = 'skeleton-single';
+        parent::__construct($oDbAdapter,$oTableGateway,$oServiceManager);
+
+        if($oTableGateway) {
+            # Attach TableGateway to Entity Models
+            if(!isset(CoreEntityModel::$aEntityTables[$this->sSingleForm])) {
+                CoreEntityModel::$aEntityTables[$this->sSingleForm] = $oTableGateway;
+            }
+        }
     }
 
     /**
