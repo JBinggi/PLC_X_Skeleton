@@ -127,6 +127,9 @@ class SkeletonController extends CoreController {
         $iSkeletonID = $this->oTableGateway->saveSingle($oSkeleton);
         $oSkeleton = $this->oTableGateway->getSingle($iSkeletonID);
 
+        # Save Multiselect
+        $this->updateMultiSelectFields($_REQUEST,$oSkeleton,'skeleton-single');
+
         # Log Performance in DB
         $aMeasureEnd = getrusage();
         $this->logPerfomance('skeleton-save',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
@@ -193,6 +196,11 @@ class SkeletonController extends CoreController {
 
         # Save Skeleton
         $iSkeletonID = $this->oTableGateway->saveSingle($oSkeleton);
+
+        $this->layout('layout/json');
+
+        # Save Multiselect
+        $this->updateMultiSelectFields($_REQUEST,$oSkeleton,'skeleton-single');
 
         # Log Performance in DB
         $aMeasureEnd = getrusage();
