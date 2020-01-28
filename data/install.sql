@@ -29,7 +29,8 @@ INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav
 --
 -- Form
 --
-INSERT INTO `core_form` (`form_key`, `label`) VALUES ('skeleton-single', 'Skeleton');
+INSERT INTO `core_form` (`form_key`, `label`, `entity_class`, `entity_tbl_class`) VALUES
+('skeleton-single', 'Skeleton', 'OnePlace\\Skeleton\\Model\\Skeleton', 'OnePlace\\Skeleton\\Model\\SkeletonTable');
 
 --
 -- Index List
@@ -55,5 +56,11 @@ INSERT INTO `core_form_button` (`Button_ID`, `label`, `icon`, `title`, `href`, `
 --
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'text', 'Name', 'label', 'skeleton-base', 'skeleton-single', 'col-md-3', '/skeleton/view/##ID##', '', 0, 1, 0, '', '', '');
+
+--
+-- Default Widgets
+--
+INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VALUES
+(NULL, 'skeleton_dailystats', 'Skeleton - Daily Stats', 'index-Skeleton\\Controller\\SkeletonController');
 
 COMMIT;
