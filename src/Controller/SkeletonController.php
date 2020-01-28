@@ -199,8 +199,11 @@ class SkeletonController extends CoreController {
 
         $this->layout('layout/json');
 
+        # Parse Form Data
+        $aFormData = $this->parseFormData($_REQUEST);
+
         # Save Multiselect
-        $this->updateMultiSelectFields($_REQUEST,$oSkeleton,'skeleton-single');
+        $this->updateMultiSelectFields($aFormData,$oSkeleton,'skeleton-single');
 
         # Log Performance in DB
         $aMeasureEnd = getrusage();

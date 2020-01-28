@@ -5,10 +5,11 @@ nav:
   - Introduction: intro.md
   - 'Quick Start': quick-start.md
   - 'Dynamic Fields': dynamic-fields.md
-  - Examples: examples.md
+  - Tutorials:
+    - 'Create Module': create-module.md
 site_name: oneplace-skeleton
 site_description: "onePlace Application Skeleton Module"
 repo_url: 'https://github.com/OnePlc/PLC_X_Skeleton'
-theme: readthedocs
+theme: bootstrap4
 extra:
   project: onePlc

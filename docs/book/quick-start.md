@@ -15,6 +15,10 @@ Go to the directory, where you installed oneplace core and run:
 $ composer require oneplace/oneplace-skeleton
 ```
 
+![injectmodconfig](https://docs.1plc.ch/img/injectmodule.jpg)
+
+If it asks you to inject to module, choose 1 (inject to module.config.php)
+
 ## Setup
 Open the browser and login to your oneplace app.
 
@@ -24,5 +28,10 @@ You will see that a new module is detected and it needs db install.
 
 click "Update"
 
-now you have the module enabled and active. you can now add new fields / tabs
-and manage permissions with the user module
+now you have the module enabled and active. you can now :
+
+* [add new fields](http://docs.1plc.ch/oneplace-user/formfields/)
+* [add new tabs](http://docs.1plc.ch/oneplace-user/formtabs/)
+* [manage permissions](http://docs.1plc.ch/oneplace-user/permissions/) 
+
+with the [user module](http://docs.1plc.ch/oneplace-user/)

@@ -69,6 +69,13 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'email', 'E-Mail', 'email_addr', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''); 
 ```
 
+### Currency
+```sql
+ALTER TABLE `skeleton` ADD `currency` TEXT NOT NULL DEFAULT '' AFTER `label`; 
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
+(NULL, 'currency', 'Currency', 'currency', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
+```
+
 ### Select
 #### Based on onePlace Tag Module 
 ```sql
@@ -77,7 +84,10 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'select', 'Test Tag', 'testtag_idfs', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '/tag/api/list/skeleton-single_1', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Tag\\Controller\\TagController');
 ```
 #### Based on onePlace Contact
-
+```sql
+ALTER TABLE `skeleton` ADD `manufacturer_idfs` INT(11) NOT NULL DEFAULT '0' AFTER `Skeleton_ID`; 
+(NULL, 'select', 'Owner', 'manufacturer_idfs', 'skeletonrequest-base', 'skeletonrequest-single', 'col-md-2', '', '/api/contact/list', '0', '1', '0', 'contact-single', 'OnePlace\\Contact\\Model\\ContactTable','add-OnePlace\\Contact\\Controller\\ContactController'),
+```
 #### Custom Data source
 
 ### Multiselect 
@@ -88,6 +98,19 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'multiselect', 'Test Tag', 'testtag_idfs', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '/tag/api/list/skeleton-single_1', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Tag\\Controller\\TagController');
 ```
 ### Partial
+
+With partials, you can load sub templates with all data from the current view.
+```sql
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
+(NULL, 'partial', 'My Partial', 'mypartial', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
+```
+
+
+### Featured Image
+```sql
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
+(NULL, 'featuredimage', 'Featured Image', 'featured_image', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''); 
+```
 
 ## After SQL installation of field
 ![Add Field Permissions](https://docs.1plc.ch/img/addfieldpermission.png)

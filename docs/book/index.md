@@ -26,7 +26,7 @@ and so on - all just by the click of a button ! Not a single line of Code is nee
 ## How to add new fields
 
 All you have to do is to run the install sql snippet from your 
-[dynamic fields docs](https://docs.1plc.ch) to add your extra field to your skeleton
+[dynamic fields docs](https://docs.1plc.ch/oneplace-skeleton/dynamic-fields/) to add your extra field to your skeleton
 module. 
 
 Here is a small example of how to add a new textfield to skeleton
