@@ -61,6 +61,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 -- Default Widgets
 --
 INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VALUES
-(NULL, 'skeleton_dailystats', 'Skeleton - Daily Stats', 'index-Skeleton\\Controller\\SkeletonController');
+(NULL, 'skeleton_dailystats', 'Skeleton - Daily Stats', 'index-Skeleton\\Controller\\SkeletonController'),
+(NULL, 'skeleton_taginfo', 'Skeleton - Tag Info', 'index-Skeleton\\Controller\\SkeletonController');
 
 COMMIT;
