@@ -81,7 +81,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'gallery', 'Gallery', 'gallery', 'skeleton-gallery', 'skeleton-single', 'col-md-12', '', '', 0, 1, 0, '', '', ''); 
 ```
-> You should have an own ta for gallery field 
+> You should have an own tab for gallery field [how-to add new tab](https://docs.1plc.ch/oneplace-user/formtabs/)
 
 ### Select
 #### Based on onePlace Tag Module 
@@ -110,7 +110,7 @@ With partials, you can load sub templates with all data from the current view.
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'partial', 'My Partial', 'mypartial', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
 ```
-> You should have an own ta for partial field 
+> You should have an own tab for partial field [how-to add new tab](https://docs.1plc.ch/oneplace-user/formtabs/)
 
 ### Featured Image
 ```sql
