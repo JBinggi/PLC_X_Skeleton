@@ -99,8 +99,12 @@ class ApiController extends CoreController {
 
         // translating system
         $translator = new Translator();
-        $translator->addTranslationFile('gettext', __DIR__.'/../../language/en_US.mo', 'skeleton', 'en_US');
-        $translator->addTranslationFile('gettext', __DIR__.'/../../language/de_DE.mo', 'skeleton', 'de_DE');
+        $aLangs = ['en_US','de_DE'];
+        foreach($aLangs as $sLang) {
+            if(file_exists(__DIR__.'/../../language/'.$sLang.'.mo')) {
+                $translator->addTranslationFile('gettext', __DIR__.'/../../language/'.$sLang.'.mo', 'skeleton', $sLang);
+            }
+        }
         $translator->setLocale($sLang);
 
         /**
