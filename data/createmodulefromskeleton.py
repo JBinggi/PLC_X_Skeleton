@@ -7,8 +7,8 @@ import glob
 import errno, stat
 
 """  
-createmodulefromskeleton.py - Create your own module form oneplace Skeleton
- Renames all module renaming and cleanuo
+createmodulefromskeleton.py - Create your own module form a oneplace Skeleton
+ Renames all modules and cleanup code structure
  Usage: createmodulefromskeleton.py path/to/module modulename
 
  @author Verein onePlace
@@ -25,17 +25,18 @@ aToDelFiles.append("/data/*.ps1")
 aToDelFiles.append("/data/*.py")
 aToDelFiles.append("/view/layout/*default.phtml")
 aToDelFiles.append("/CHANGELOG.md")
-#aToDelFiles.append("/mkdocs")
-#aToDelFiles.append("/README")
+aToDelFiles.append("/mkdocs.yml")
+
 aToDelDirs = []
 aToDelDirs.append("/.git")
+aToDelDirs.append("/docs/book")
 
 # Whitelist from renaming
 aWhiteList = []
 aWhiteList.append("/language/")
 
 sSkeletonName = "Skeleton"
-sVersionFile = "\\src\\Module.php"
+sVersionFile = "Module.php"
 
 def printHelp():
   print("Create a new Module based on the current PLC_X_Skeleton");
@@ -142,8 +143,8 @@ while not bFinish:
       # rename all Folders from skeleton to moduleName
       if sSkel_s in dir:
         sDest = dir.replace(sSkel_s,sModul_s)
-        print("rename  " + root+"/"+sSource + " to " + root +"/"+ sDest)
-        os.rename(root+"/"+sSource, root+"/"+sDest)
+        print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
+        os.rename(os.path.join(root,sSource), os.path.join(root,sDest))
         bFinish = False # dirty solution
         break
       # rename all Folders from Skeleton to ModuleName
@@ -162,7 +163,7 @@ for root, dirs, files in os.walk(sModulePath):
     sSource = file
     # ignore whitelisted files
     for url in aWhiteList:
-      path = root + "/" + sSource
+      path = os.path.join(root,sSource)
       if path.find(url) > 0:
         print("ignore " + path)
         ignore = True
@@ -173,21 +174,21 @@ for root, dirs, files in os.walk(sModulePath):
 
     if sSkel_s in file:
       sDest = file.replace(sSkel_s, sModul_s)
-      print("rename  " + root + "/" + sSource + " to " + root + "/" + sDest)
-      os.rename(root + "/" + sSource, root + "/" + sDest)
+      print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
+      os.rename(os.path.join(root,sSource), os.path.join(root,sDest))
 
       # rename all Folders from Skeleton to ModuleName
     if sSkel_S in file:
       sDest = file.replace(sSkel_S, sModul_S)
-      print("rename  " + root + "/" + sSource + " to " + root + "/" + sDest)
-      os.rename(root + "/" + sSource, root + "/" + sDest)
+      print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
+      os.rename(os.path.join(root,sSource), os.path.join(root,sDest))
 
 # all renaming inside files happens here:
 for root, dirs, files in os.walk(sModulePath):
   # rename all Files from Skeleton to ModuleName
   for file in files:
-    sSource = root + "/" + file
-    sSourceTemp = root + "/" + file + "_temp"
+    sSource = os.path.join(root,file)
+    sSourceTemp = os.path.join(root,file + "_temp")
 
     # ignore whitelisted files
     for url in aWhiteList:
@@ -203,7 +204,10 @@ for root, dirs, files in os.walk(sModulePath):
     try:
       for line in fp:
         # set Version to default 1.0.0
-        if sSource == sModulePath + sVersionFile and line.find("VERSION") > 0:
+        #
+        #print(sSource.find(sVersionFile))
+        if sSource.find(sVersionFile) > 0 and line.find("VERSION") > 0:
+          print("set module version to 1.0.0")
           fpW.write("    const VERSION = '1.0.0';")
         else:
           # replace skeleton name
