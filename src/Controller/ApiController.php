@@ -67,7 +67,21 @@ class ApiController extends CoreController {
     public function listAction() {
         $this->layout('layout/json');
 
+        # Set default values
         $bSelect2 = true;
+        $sListLabel = 'label';
+
+        # Get list mode from query
+        if(isset($_REQUEST['listmode'])) {
+            if($_REQUEST['listmode'] == 'entity') {
+                $bSelect2 = false;
+            }
+        }
+
+        # get list label from query
+        if(isset($_REQUEST['listlabel'])) {
+            $sListLabel = $_REQUEST['listlabel'];
+        }
 
         /**
          * todo: enforce to use /api/contact instead of /contact/api so we can do security checks in main api controller
@@ -79,16 +93,88 @@ class ApiController extends CoreController {
         }
          **/
 
+        # Init Item List for Response
         $aItems = [];
+
+        $aFields = $this->getFormFields('skeleton-single');
+        $aFieldsByKey = [];
+        # fields are sorted by tab , we need an index with all fields
+        foreach($aFields as $oField) {
+            $aFieldsByKey[$oField->fieldkey] = $oField;
+        }
+
+        # only allow form fields as list labels
+        if(!array_key_exists($sListLabel,$aFieldsByKey)) {
+            $aReturn = [
+                'state'=>'error',
+                'results' => [],
+                'message' => 'invalid list label',
+            ];
+
+            # Print List with all Entities
+            echo json_encode($aReturn);
+            return false;
+        }
 
         # Get All Skeleton Entities from Database
         $oItemsDB = $this->oTableGateway->fetchAll(false);
         if(count($oItemsDB) > 0) {
+            # Loop all items
             foreach($oItemsDB as $oItem) {
+
+                # Output depending on list mode
                 if($bSelect2) {
-                    $aItems[] = ['id'=>$oItem->getID(),'text'=>$oItem->getLabel()];
+                    $sVal = null;
+                    # get value for list label field
+                    switch($aFieldsByKey[$sListLabel]->type) {
+                        case 'select':
+                            $oTag = $oItem->getSelectField($aFieldsByKey[$sListLabel]->fieldkey);
+                            if($oTag) {
+                                $sVal = $oTag->getLabel();
+                            }
+                            break;
+                        case 'text':
+                        case 'date':
+                        case 'textarea':
+                            $sVal = $oItem->getTextField($aFieldsByKey[$sListLabel]->fieldkey);
+                            break;
+                        default:
+                            break;
+                    }
+                    $aItems[] = ['id'=>$oItem->getID(),'text'=>$sVal];
                 } else {
-                    $aItems[] = $oItem;
+                    # Init public item
+                    $aPublicItem = [];
+
+                    # add all fields to item
+                    foreach($aFields as $oField) {
+                        switch($oField->type) {
+                            case 'multiselect':
+                                # get selected
+                                $oTags = $oItem->getMultiSelectField($oField->fieldkey);
+                                $aTags = [];
+                                foreach($oTags as $oTag) {
+                                    $aTags[] = ['id'=>$oTag->id,'label'=>$oTag->text];
+                                }
+                                $aPublicItem[$oField->fieldkey] = $aTags;
+                                break;
+                            case 'select':
+                                # get selected
+                                $oTag = $oItem->getSelectField($oField->fieldkey);
+                                $aPublicItem[$oField->fieldkey] = ['id'=>$oTag->id,'label'=>$oTag->tag_value];
+                                break;
+                            case 'text':
+                            case 'date':
+                            case 'textarea':
+                                $aPublicItem[$oField->fieldkey] = $oItem->getTextField($oField->fieldkey);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    # add item to list
+                    $aItems[] = $aPublicItem;
                 }
 
             }

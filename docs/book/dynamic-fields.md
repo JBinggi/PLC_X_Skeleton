@@ -36,9 +36,9 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 
 ### Date 
 ```sql
-ALTER TABLE `skeleton` ADD `date_received` TEXT NOT NULL DEFAULT '0000-00-00' AFTER `label`; 
+ALTER TABLE `skeleton` ADD `date_received` DATE NOT NULL DEFAULT '0000-00-00' AFTER `label`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
-(NULL, 'text', 'Date received', 'date_received', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
+(NULL, 'date', 'Date received', 'date_received', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
 ```
 
 ### Datetime
@@ -93,7 +93,6 @@ ALTER TABLE `skeleton` ADD `manufacturer_idfs` INT(11) NOT NULL DEFAULT '0' AFTE
 ### Multiselect 
 #### Based on onePlace Tag Module 
 ```sql
-ALTER TABLE `skeleton` ADD `testtag_idfs` INT(11) NOT NULL DEFAULT '0' AFTER `Skeleton_ID`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'multiselect', 'Test Tag', 'testtag_idfs', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '/tag/api/list/skeleton-single_1', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Tag\\Controller\\TagController');
 ```
