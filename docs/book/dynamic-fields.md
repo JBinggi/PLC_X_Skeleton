@@ -57,7 +57,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 
 ### Tel
 ```sql
-ALTER TABLE `skeleton` ADD `phone` DATETIME NOT NULL DEFAULT '' AFTER `modified_date`; 
+ALTER TABLE `skeleton` ADD `phone` VARCHAR(20) NOT NULL DEFAULT '' AFTER `label`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'tel', 'Phone', 'phone', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''); 
 ```
