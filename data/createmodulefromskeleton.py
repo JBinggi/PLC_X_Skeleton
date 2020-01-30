@@ -14,7 +14,7 @@ createmodulefromskeleton.py - Create your own module form a oneplace Skeleton
  @author Verein onePlace
  @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  @license https://opensource.org/licenses/BSD-3-Clause
- @version 1.0.0
+ @version 1.0.1
  @since 1.0.0
 """
 
@@ -39,10 +39,10 @@ sSkeletonName = "Skeleton"
 sVersionFile = "Module.php"
 
 def printHelp():
-  print("Create a new Module based on the current PLC_X_Skeleton");
-  print("Run it directly inside /data/");
-  print("Using:");
-  print(sys.argv[0] + " path/to/module modulename");
+  print("Create a new Module based on the current PLC_X_Skeleton")
+  print("Run it directly inside /data/")
+  print("Using:")
+  print(sys.argv[0] + " path/to/module modulename")
   exit(1)
 
 
@@ -75,7 +75,7 @@ def getModulname(name, upper = True):
   
 
 # check if module name is provided
-if len(sys.argv) == 2 :
+if len(sys.argv) < 2 :
   printHelp()
 
 sScriptPath = os.path.realpath(__file__)
@@ -86,7 +86,7 @@ sModuleName = sys.argv[2]
 if os.path.exists(sys.argv[1]):
   print("Module exists, move ,delete or rename your Module")
   #print(sModulePath)
-  shutil.rmtree(sModulePath, ignore_errors=False, onerror=remove_readonly)
+  #shutil.rmtree(sModulePath, ignore_errors=False, onerror=remove_readonly)
   exit(1)
   
 #check if the context is right
