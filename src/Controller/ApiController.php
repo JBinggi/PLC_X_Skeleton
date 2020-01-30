@@ -21,6 +21,7 @@ use Application\Controller\CoreController;
 use OnePlace\Skeleton\Model\SkeletonTable;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Adapter\AdapterInterface;
+use Zend\I18n\Translator\Translator;
 
 class ApiController extends CoreController {
     /**
@@ -89,6 +90,18 @@ class ApiController extends CoreController {
         if(isset($_REQUEST['listlabel'])) {
             $sListLabel = $_REQUEST['listlabel'];
         }
+
+        # get list label from query
+        $sLang = 'en_US';
+        if(isset($_REQUEST['lang'])) {
+            $sLang = $_REQUEST['lang'];
+        }
+
+        // translating system
+        $translator = new Translator();
+        $translator->addTranslationFile('gettext', __DIR__.'/../../language/en_US.mo', 'skeleton', 'en_US');
+        $translator->addTranslationFile('gettext', __DIR__.'/../../language/de_DE.mo', 'skeleton', 'de_DE');
+        $translator->setLocale($sLang);
 
         /**
          * todo: enforce to use /api/contact instead of /contact/api so we can do security checks in main api controller
@@ -161,19 +174,25 @@ class ApiController extends CoreController {
                                 $oTags = $oItem->getMultiSelectField($oField->fieldkey);
                                 $aTags = [];
                                 foreach($oTags as $oTag) {
-                                    $aTags[] = ['id'=>$oTag->id,'label'=>$oTag->text];
+                                    $aTags[] = ['id'=>$oTag->id,'label'=>$translator->translate($oTag->text,'skeleton',$sLang)];
                                 }
                                 $aPublicItem[$oField->fieldkey] = $aTags;
                                 break;
                             case 'select':
                                 # get selected
                                 $oTag = $oItem->getSelectField($oField->fieldkey);
-                                $aPublicItem[$oField->fieldkey] = ['id'=>$oTag->id,'label'=>$oTag->tag_value];
+                                if($oTag) {
+                                    if (property_exists($oTag, 'tag_value')) {
+                                        $aPublicItem[$oField->fieldkey] = ['id' => $oTag->id, 'label' => $translator->translate($oTag->tag_value,'skeleton',$sLang)];
+                                    } else {
+                                        $aPublicItem[$oField->fieldkey] = ['id' => $oTag->getID(), 'label' => $translator->translate($oTag->getLabel(),'skeleton',$sLang)];
+                                    }
+                                }
                                 break;
                             case 'text':
                             case 'date':
                             case 'textarea':
-                                $aPublicItem[$oField->fieldkey] = $oItem->getTextField($oField->fieldkey);
+                                $aPublicItem[$oField->fieldkey] = $translator->translate($oItem->getTextField($oField->fieldkey),'skeleton',$sLang);
                                 break;
                             default:
                                 break;
