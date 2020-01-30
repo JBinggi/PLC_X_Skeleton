@@ -61,6 +61,11 @@ class SkeletonTable extends CoreEntityTable {
                 $oWh->like(substr($sWh,0,strlen($sWh)-strlen('-like')),$aWhere[$sWh].'%');
             }
         }
+        if(array_key_exists('multi_tag',$aWhere)) {
+            $oSel->join(['category_tag'=>'core_entity_tag_entity'],'category_tag.entity_idfs = article.Article_ID');
+            $oWh->equalTo('category_tag.entity_tag_idfs',$aWhere['multi_tag']);
+            $oWh->like('category_tag.entity_type',explode('-',$this->sSingleForm)[0]);
+        }
         $oSel->where($oWh);
 
         # Return Paginator or Raw ResultSet based on selection

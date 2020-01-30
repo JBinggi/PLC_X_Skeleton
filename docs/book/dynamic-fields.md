@@ -22,7 +22,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 
 ### Text
 ```sql
-ALTER TABLE `skeleton` ADD `name` TEXT NOT NULL DEFAULT '' AFTER `label`; 
+ALTER TABLE `skeleton` ADD `name` VARCHAR(255) NOT NULL DEFAULT '' AFTER `label`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'text', 'Name', 'name', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
 ```
@@ -64,14 +64,14 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 
 ### E-Mail
 ```sql
-ALTER TABLE `skeleton` ADD `email_addr` DATETIME NOT NULL DEFAULT '' AFTER `modified_date`; 
+ALTER TABLE `skeleton` ADD `email_addr` VARCHAR(255) NOT NULL DEFAULT '' AFTER `label`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'email', 'E-Mail', 'email_addr', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''); 
 ```
 
 ### Currency
 ```sql
-ALTER TABLE `skeleton` ADD `currency` TEXT NOT NULL DEFAULT '' AFTER `label`; 
+ALTER TABLE `skeleton` ADD `currency` FLOAT NOT NULL DEFAULT 0 AFTER `label`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'currency', 'Currency', 'currency', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
 ```
