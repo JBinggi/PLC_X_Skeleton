@@ -67,6 +67,13 @@ class ApiController extends CoreController {
     public function listAction() {
         $this->layout('layout/json');
 
+        # Check license
+        if(!$this->checkLicense('skeleton')) {
+            $aReturn = ['state'=>'error','message'=>'no valid license for skeleton found'];
+            echo json_encode($aReturn);
+            return false;
+        }
+
         # Set default values
         $bSelect2 = true;
         $sListLabel = 'label';
@@ -203,6 +210,13 @@ class ApiController extends CoreController {
      */
     public function getAction() {
         $this->layout('layout/json');
+
+        # Check license
+        if(!$this->checkLicense('skeleton')) {
+            $aReturn = ['state'=>'error','message'=>'no valid license for skeleton found'];
+            echo json_encode($aReturn);
+            return false;
+        }
 
         # Get Skeleton ID from route
         $iItemID = $this->params()->fromRoute('id', 0);

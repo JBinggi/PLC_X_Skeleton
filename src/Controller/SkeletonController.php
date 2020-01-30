@@ -62,6 +62,12 @@ class SkeletonController extends CoreController {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('skeleton');
 
+        # Check license
+        if(!$this->checkLicense('skeleton')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for skeleton');
+            $this->redirect()->toRoute('home');
+        }
+
         # Add Buttons for breadcrumb
         $this->setViewButtons('skeleton-index');
 
@@ -94,6 +100,12 @@ class SkeletonController extends CoreController {
     public function addAction() {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('skeleton');
+
+        # Check license
+        if(!$this->checkLicense('skeleton')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for skeleton');
+            $this->redirect()->toRoute('home');
+        }
 
         # Get Request to decide wether to save or display form
         $oRequest = $this->getRequest();
@@ -148,6 +160,12 @@ class SkeletonController extends CoreController {
     public function editAction() {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('skeleton');
+
+        # Check license
+        if(!$this->checkLicense('skeleton')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for skeleton');
+            $this->redirect()->toRoute('home');
+        }
 
         # Get Request to decide wether to save or display form
         $oRequest = $this->getRequest();
@@ -223,6 +241,12 @@ class SkeletonController extends CoreController {
     public function viewAction() {
         # Set Layout based on users theme
         $this->setThemeBasedLayout('skeleton');
+
+        # Check license
+        if(!$this->checkLicense('skeleton')) {
+            $this->flashMessenger()->addErrorMessage('You have no active license for skeleton');
+            $this->redirect()->toRoute('home');
+        }
 
         # Get Skeleton ID from URL
         $iSkeletonID = $this->params()->fromRoute('id', 0);

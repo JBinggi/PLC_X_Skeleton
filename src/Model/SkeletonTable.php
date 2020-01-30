@@ -91,12 +91,13 @@ class SkeletonTable extends CoreEntityTable {
      * Get Skeleton Entity
      *
      * @param int $id
+     * @param string $sKey custom key
      * @return mixed
      * @since 1.0.0
      */
-    public function getSingle($id) {
+    public function getSingle($id,$sKey = 'Skeleton_ID') {
         $id = (int) $id;
-        $rowset = $this->oTableGateway->select(['Skeleton_ID' => $id]);
+        $rowset = $this->oTableGateway->select([$sKey => $id]);
         $row = $rowset->current();
         if (! $row) {
             throw new \RuntimeException(sprintf(

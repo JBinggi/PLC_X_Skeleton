@@ -23,6 +23,7 @@ use Laminas\ModuleManager\ModuleManager;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Container;
+use Application\Controller\CoreController;
 
 class Module {
     /**
