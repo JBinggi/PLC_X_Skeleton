@@ -76,6 +76,13 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'currency', 'Currency', 'currency', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
 ```
 
+### Gallery
+```sql
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
+(NULL, 'gallery', 'Gallery', 'gallery', 'skeleton-gallery', 'skeleton-single', 'col-md-12', '', '', 0, 1, 0, '', '', ''); 
+```
+> You should have an own ta for gallery field 
+
 ### Select
 #### Based on onePlace Tag Module 
 ```sql
@@ -103,7 +110,7 @@ With partials, you can load sub templates with all data from the current view.
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'partial', 'My Partial', 'mypartial', 'skeleton-base', 'skeleton-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''); 
 ```
-
+> You should have an own ta for partial field 
 
 ### Featured Image
 ```sql
