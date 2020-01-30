@@ -100,12 +100,14 @@ class ApiController extends CoreController {
         // translating system
         $translator = new Translator();
         $aLangs = ['en_US','de_DE'];
-        foreach($aLangs as $sLang) {
-            if(file_exists(__DIR__.'/../../language/'.$sLang.'.mo')) {
-                $translator->addTranslationFile('gettext', __DIR__.'/../../language/'.$sLang.'.mo', 'skeleton', $sLang);
+        foreach($aLangs as $sLoadLang) {
+            if(file_exists(__DIR__.'/../../../oneplace-translation/language/'.$sLoadLang.'.mo')) {
+                $translator->addTranslationFile('gettext', __DIR__.'/../../../oneplace-translation/language/'.$sLang.'.mo', 'skeleton', $sLoadLang);
             }
         }
+
         $translator->setLocale($sLang);
+
 
         /**
          * todo: enforce to use /api/contact instead of /contact/api so we can do security checks in main api controller
