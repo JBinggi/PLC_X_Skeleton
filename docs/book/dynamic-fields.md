@@ -107,6 +107,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 
 ### Featured Image
 ```sql
+ALTER TABLE `skeleton` ADD `featured_image` VARCHAR (255) NOT NULL DEFAULT '' AFTER `label`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'featuredimage', 'Featured Image', 'featured_image', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''); 
 ```
