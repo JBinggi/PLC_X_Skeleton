@@ -34,7 +34,7 @@ Here is a small example of how to add a new textfield to skeleton
 ```sql
 ALTER TABLE `skeleton` ADD `lastname` TEXT NOT NULL DEFAULT '' AFTER `label`; 
 
-INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES 
 (NULL, 'text', 'Lastname', 'lastname', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''); 
 ```
 
