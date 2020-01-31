@@ -24,7 +24,8 @@ INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav
 ('edit', 'OnePlace\\Skeleton\\Controller\\SkeletonController', 'Edit', '', '', 0),
 ('index', 'OnePlace\\Skeleton\\Controller\\SkeletonController', 'Index', 'Skeletons', '/skeleton', 1),
 ('list', 'OnePlace\\Skeleton\\Controller\\ApiController', 'List', '', '', 1),
-('view', 'OnePlace\\Skeleton\\Controller\\SkeletonController', 'View', '', '', 0);
+('view', 'OnePlace\\Skeleton\\Controller\\SkeletonController', 'View', '', '', 0),
+('dump', 'OnePlace\\Skeleton\\Controller\\ExportController', 'Excel Dump', '', '', 0);
 
 --
 -- Form
@@ -49,7 +50,8 @@ INSERT INTO `core_form_tab` (`Tab_ID`, `form`, `title`, `subtitle`, `icon`, `cou
 INSERT INTO `core_form_button` (`Button_ID`, `label`, `icon`, `title`, `href`, `class`, `append`, `form`, `mode`, `filter_check`, `filter_value`) VALUES
 (NULL, 'Save Skeleton', 'fas fa-save', 'Save Skeleton', '#', 'primary saveForm', '', 'skeleton-single', 'link', '', ''),
 (NULL, 'Edit Skeleton', 'fas fa-edit', 'Edit Skeleton', '/skeleton/edit/##ID##', 'primary', '', 'skeleton-view', 'link', '', ''),
-(NULL, 'Add Skeleton', 'fas fa-plus', 'Add Skeleton', '/skeleton/add', 'primary', '', 'skeleton-index', 'link', '', '');
+(NULL, 'Add Skeleton', 'fas fa-plus', 'Add Skeleton', '/skeleton/add', 'primary', '', 'skeleton-index', 'link', '', ''),
+(NULL, 'Export Skeletons', 'fas fa-file-excel', 'Export Skeletons', '/skeleton/export', 'primary', '', 'skeleton-index', 'link', '', '');
 
 --
 -- Fields

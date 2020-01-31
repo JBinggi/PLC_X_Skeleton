@@ -86,6 +86,14 @@ class Module {
                         $container
                     );
                 },
+                Controller\ExportController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\ExportController(
+                        $oDbAdapter,
+                        $container->get(Model\SkeletonTable::class),
+                        $container
+                    );
+                },
             ],
         ];
     }

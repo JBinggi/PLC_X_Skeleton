@@ -52,6 +52,20 @@ return [
                     ],
                 ],
             ],
+            'skeleton-export' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/skeleton/export[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ExportController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
 
