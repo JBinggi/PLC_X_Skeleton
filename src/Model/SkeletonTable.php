@@ -47,6 +47,7 @@ class SkeletonTable extends CoreEntityTable {
      * @since 1.0.0
      */
     public function getSingle($id) {
+        # Use core function
         return $this->getSingleEntity($id,'Skeleton_ID');
     }
 
