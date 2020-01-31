@@ -28,7 +28,18 @@
                     <h2>Results</h2>
                 </div>
                 <div class="card-body">
-
+                    <ul class="list-group">
+                    <?php
+                    foreach($aResults as $oSkeleton) { ?>
+                        <li class="list-group-item">
+                            <a href="<?=$this->url('skeleton',['action'=>'view','id'=>$oSkeleton->getID()])?>" title="<?=$this->translate('View Skeleton')?>">
+                                <?=$oSkeleton->getLabel();?>
+                            </a>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                    </ul>
                 </div>
             </div>
         </div>
