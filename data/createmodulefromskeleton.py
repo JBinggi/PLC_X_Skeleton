@@ -14,9 +14,15 @@ createmodulefromskeleton.py - Create your own module form a oneplace Skeleton
  @author Verein onePlace
  @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  @license https://opensource.org/licenses/BSD-3-Clause
- @version 1.0.1
+ @version 1.0.2
  @since 1.0.0
+
+ # Changelog
+    1.0.2: replace @since tag in module.php
+           add -v verbose log + better output
 """
+
+DEBUG = False
 
 # Remove Files and Folders (wildcard only for files)
 aToDelFiles = []
@@ -42,7 +48,7 @@ def printHelp():
   print("Create a new Module based on the current PLC_X_Skeleton")
   print("Run it directly inside /data/")
   print("Using:")
-  print(sys.argv[0] + " path/to/module modulename")
+  print(sys.argv[0] + " path/to/module modulename [-v]")
   exit(1)
 
 
@@ -75,16 +81,23 @@ def getModulname(name, upper = True):
   
 
 # check if module name is provided
-if len(sys.argv) < 2 :
+if len(sys.argv) < 3 :
   printHelp()
+
+# parse -v param
+# TODO implement arg manager
+if len(sys.argv) >= 4 :
+    if sys.argv[3] == "-v":
+        DEBUG = True
 
 sScriptPath = os.path.realpath(__file__)
 sModulePath = sys.argv[1]
 sModuleName = sys.argv[2]
+iChangeCount = 0
 
 # check if path is occupied
 if os.path.exists(sys.argv[1]):
-  print("Module exists, move ,delete or rename your Module")
+  print("Module already exists... move ,delete or rename your Module at " + sModulePath)
   #print(sModulePath)
   #shutil.rmtree(sModulePath, ignore_errors=False, onerror=remove_readonly)
   exit(1)
@@ -111,20 +124,30 @@ except IOError as err:
 # Remove folders
 for dir in aToDelDirs:
   try:
-    print("delete " + sModulePath+dir)
+    if DEBUG :
+      print("delete " + sModulePath+dir)
     shutil.rmtree(sModulePath+dir, ignore_errors=False, onerror=remove_readonly)
+    iChangeCount += 1
   except:
     print("Error while deleting file : ", sModulePath+dir)
+
+print(" " + str(iChangeCount) + " folders deleted")
+iChangeCount=0
 
 # delete files
 for fileList in aToDelFiles:
   for filePath in glob.glob(sModulePath+fileList):
     try:
-      print("delete " + filePath)
+      if DEBUG :
+        print("delete " + filePath)
+      iChangeCount += 1
       os.remove(filePath)
     except:
       print("Error while deleting file : ", filePath)
-    
+
+print(" " + str(iChangeCount) + " files deleted")
+iChangeCount=0
+
 sSkel_s = getModulname(sSkeletonName,False)
 sSkel_S = getModulname(sSkeletonName,True)
 
@@ -143,17 +166,24 @@ while not bFinish:
       # rename all Folders from skeleton to moduleName
       if sSkel_s in dir:
         sDest = dir.replace(sSkel_s,sModul_s)
-        print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
+        if DEBUG :
+            print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
         os.rename(os.path.join(root,sSource), os.path.join(root,sDest))
+        iChangeCount += 1
         bFinish = False # dirty solution
         break
       # rename all Folders from Skeleton to ModuleName
       if sSkel_S in dir:
         sDest = dir.replace(sSkel_S,sModul_S)
-        print("rename" +  sSource + " to " + sDest)
+        if DEBUG :
+            print("rename" +  sSource + " to " + sDest)
         bFinish = False # dirty solution
         os.rename(sSource, sDest)
+        iChangeCount += 1
         break
+
+print(" " + str(iChangeCount) + " folders renamed")
+iChangeCount=0
 
 #rename all files
 ignore=False
@@ -174,14 +204,21 @@ for root, dirs, files in os.walk(sModulePath):
 
     if sSkel_s in file:
       sDest = file.replace(sSkel_s, sModul_s)
-      print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
+      if DEBUG :
+        print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
       os.rename(os.path.join(root,sSource), os.path.join(root,sDest))
+      iChangeCount += 1
 
       # rename all Folders from Skeleton to ModuleName
     if sSkel_S in file:
       sDest = file.replace(sSkel_S, sModul_S)
-      print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
+      if DEBUG:
+        print("rename  " + os.path.join(root,sSource) + " to " + os.path.join(root,sDest))
       os.rename(os.path.join(root,sSource), os.path.join(root,sDest))
+      iChangeCount += 1
+
+print(" " + str(iChangeCount) + " files renamed")
+iChangeCount=0
 
 # all renaming inside files happens here:
 for root, dirs, files in os.walk(sModulePath):
@@ -201,21 +238,43 @@ for root, dirs, files in os.walk(sModulePath):
 
     fp = open(sSource,"r")
     fpW = open(sSourceTemp,"w")
+    # search an replace inside each file
+    # look for versions and set it to 1.0.0
+    line_count = 0
+    sDefaultVersion = "1.0.0"
+    sVersionTag ="@version"
+    sSinceTag ="@since"
     try:
       for line in fp:
-        # set Version to default 1.0.0
-        #
-        #print(sSource.find(sVersionFile))
+        line_count=line_count+1
+        # not a beauty - but works
         if sSource.find(sVersionFile) > 0 and line.find("VERSION") > 0:
-          print("set module version to 1.0.0")
-          fpW.write("    const VERSION = '1.0.0';")
+          if DEBUG :
+            print("set version to 1.0.0 in " + sVersionFile + " in Line " + str(line_count))
+          fpW.write("    const VERSION = '1.0.0';\n")
+        elif sSource.find(sVersionFile) > 0 and line.find(sVersionTag) > 0:
+          if DEBUG :
+            print("set " + sVersionTag + " to " + sDefaultVersion + " in " + sVersionTag + " at Line " + str(line_count))
+          line = line[:line.find(sVersionTag) + len(sVersionTag)] + " " + sDefaultVersion
+          fpW.write(line+"\n")
+        elif sSource.find(sVersionFile) > 0 and line.find(sSinceTag) > 0:
+          if DEBUG :
+            print("set " + sSinceTag + " to " + sDefaultVersion + " in " + sVersionTag + " at Line " + str(line_count))
+          line = line[:line.find(sSinceTag) + len(sSinceTag)] + " " + sDefaultVersion
+          fpW.write(line+"\n")
         else:
           # replace skeleton name
+          sOrig=line
           line = line.replace(sSkel_S, sModul_S)
           line = line.replace(sSkel_s, sModul_s)
+          if sOrig != line :
+            if DEBUG :
+              print(sSource + " renaming at Line: " + str(line_count))
+            iChangeCount += 1
+
           fpW.write(line)
-    except:
-      print("Error while renaming file : ", sModulePath + dir)
+    except Exception as e:
+      print(sModulePath + " Error while renaming file : " + dir + " " + str(e))
 
 
     fp.close()
@@ -223,3 +282,7 @@ for root, dirs, files in os.walk(sModulePath):
     fpW.close()
     os.rename(sSourceTemp, sSource)
 
+print(" " + str(iChangeCount) + " files renamed")
+iChangeCount=0
+
+print("\nModule successfully created at: " + sModulePath)
