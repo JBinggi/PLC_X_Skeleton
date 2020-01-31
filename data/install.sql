@@ -25,7 +25,8 @@ INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav
 ('index', 'OnePlace\\Skeleton\\Controller\\SkeletonController', 'Index', 'Skeletons', '/skeleton', 1),
 ('list', 'OnePlace\\Skeleton\\Controller\\ApiController', 'List', '', '', 1),
 ('view', 'OnePlace\\Skeleton\\Controller\\SkeletonController', 'View', '', '', 0),
-('dump', 'OnePlace\\Skeleton\\Controller\\ExportController', 'Excel Dump', '', '', 0);
+('dump', 'OnePlace\\Skeleton\\Controller\\ExportController', 'Excel Dump', '', '', 0),
+('index', 'OnePlace\\Skeleton\\Controller\\SearchController', 'Search', '', '', 0);
 
 --
 -- Form
@@ -51,7 +52,10 @@ INSERT INTO `core_form_button` (`Button_ID`, `label`, `icon`, `title`, `href`, `
 (NULL, 'Save Skeleton', 'fas fa-save', 'Save Skeleton', '#', 'primary saveForm', '', 'skeleton-single', 'link', '', ''),
 (NULL, 'Edit Skeleton', 'fas fa-edit', 'Edit Skeleton', '/skeleton/edit/##ID##', 'primary', '', 'skeleton-view', 'link', '', ''),
 (NULL, 'Add Skeleton', 'fas fa-plus', 'Add Skeleton', '/skeleton/add', 'primary', '', 'skeleton-index', 'link', '', ''),
-(NULL, 'Export Skeletons', 'fas fa-file-excel', 'Export Skeletons', '/skeleton/export', 'primary', '', 'skeleton-index', 'link', '', '');
+(NULL, 'Export Skeletons', 'fas fa-file-excel', 'Export Skeletons', '/skeleton/export', 'primary', '', 'skeleton-index', 'link', '', ''),
+(NULL, 'Find Skeletons', 'fas fa-searh', 'Find Skeletons', '/skeleton/search', 'primary', '', 'skeleton-index', 'link', '', ''),
+(NULL, 'Export Skeletons', 'fas fa-file-excel', 'Export Skeletons', '#', 'primary initExcelDump', '', 'skeleton-search', 'link', '', ''),
+(NULL, 'New Search', 'fas fa-searh', 'New Search', '/skeleton/search', 'primary', '', 'skeleton-search', 'link', '', '');
 
 --
 -- Fields

@@ -182,4 +182,8 @@ class SkeletonTable extends CoreEntityTable {
             'date'=>date('Y-m-d H:i:s',time()),
         ]);
     }
+
+    public function generateNew() {
+        return new Skeleton($this->oTableGateway->getAdapter());
+    }
 }

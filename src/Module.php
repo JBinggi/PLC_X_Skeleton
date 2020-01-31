@@ -23,15 +23,16 @@ use Laminas\ModuleManager\ModuleManager;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Container;
-use Application\Controller\CoreController;
+use Application\Controller\CoreEntityController;
+use OnePlace\Skeleton\Controller\PluginController;
 
 class Module {
     /**
      * Module Version
      *
-     * @since 1.0.6
+     * @since 1.0.7
      */
-    const VERSION = '1.0.6';
+    const VERSION = '1.0.7';
 
     /**
      * Load module config file
@@ -70,14 +71,28 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
+                # Plugin Example Controller
+                Controller\PluginController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\PluginController(
+                        $oDbAdapter,
+                        $container->get(Model\SkeletonTable::class),
+                        $container
+                    );
+                },
+                # Skeleton Main Controller
                 Controller\SkeletonController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
+                    $tableGateway = $container->get(Model\SkeletonTable::class);
+                    # hook plugin
+                    CoreEntityController::addHook('skeleton-add-before',(object)['sFunction'=>'testFunction','oItem'=>new PluginController($oDbAdapter,$tableGateway,$container)]);
                     return new Controller\SkeletonController(
                         $oDbAdapter,
                         $container->get(Model\SkeletonTable::class),
                         $container
                     );
                 },
+                # Api Plugin
                 Controller\ApiController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\ApiController(
@@ -86,9 +101,19 @@ class Module {
                         $container
                     );
                 },
+                # Export Plugin
                 Controller\ExportController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\ExportController(
+                        $oDbAdapter,
+                        $container->get(Model\SkeletonTable::class),
+                        $container
+                    );
+                },
+                # Search Plugin
+                Controller\SearchController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\SearchController(
                         $oDbAdapter,
                         $container->get(Model\SkeletonTable::class),
                         $container
