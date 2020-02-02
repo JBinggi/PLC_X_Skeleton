@@ -47,7 +47,7 @@ class ExportController extends CoreExportController
         $this->layout('layout/json');
 
         # Use Default export function
-        $aViewData = $this->exportSkeletonBasedData('Skeletons','skeleton');
+        $aViewData = $this->exportData('Skeletons','skeleton');
 
         # return data to view (popup)
         return new ViewModel($aViewData);

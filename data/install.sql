@@ -70,4 +70,12 @@ INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VA
 (NULL, 'skeleton_dailystats', 'Skeleton - Daily Stats', 'index-Skeleton\\Controller\\SkeletonController'),
 (NULL, 'skeleton_taginfo', 'Skeleton - Tag Info', 'index-Skeleton\\Controller\\SkeletonController');
 
+--
+-- User XP Activity
+--
+INSERT INTO `user_xp_activity` (`Activity_ID`, `xp_key`, `label`, `xp_base`) VALUES
+(NULL, 'skeleton-add', 'Add New Skeleton', '50'),
+(NULL, 'skeleton-edit', 'Edit Skeleton', '5'),
+(NULL, 'skeleton-export', 'Edit Skeleton', '5');
+
 COMMIT;

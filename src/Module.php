@@ -30,9 +30,9 @@ class Module {
     /**
      * Module Version
      *
-     * @since 1.0.7
+     * @since 1.0.8
      */
-    const VERSION = '1.0.7';
+    const VERSION = '1.0.8';
 
     /**
      * Load module config file

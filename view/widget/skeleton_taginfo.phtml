@@ -10,34 +10,36 @@ if(count($oTag) > 0) {
     $oTag = $oTag->current();
     $oEntityTags = CoreController::$aCoreTables['core-entity-tag']->select(['tag_idfs'=>$oTag->Tag_ID,'entity_form_idfs'=>'skeleton-single']);
 
-    try {
-        # Get Skeleton Table
-        $oSkeletonTbl = CoreController::$oServiceManager->get(\OnePlace\Skeleton\Model\SkeletonTable::class);
+    if(count($oEntityTags) > 0) {
+        try {
+            # Get Skeleton Table
+            $oSkeletonTbl = CoreController::$oServiceManager->get(\OnePlace\Skeleton\Model\SkeletonTable::class);
 
-        # Sort Tags by Skeleton Count per Tag
-        $aTopTagsByCount = [];
-        $aSortArray = [];
-        if(count($oEntityTags) > 0) {
-            foreach($oEntityTags as $oEntityTag) {
-                $iCount = count(CoreController::$aCoreTables['core-entity-tag-entity']->select(['entity_tag_idfs'=>$oEntityTag->Entitytag_ID,'entity_type'=>'skeleton']));
-                $aTopTagsByCount[$oEntityTag->Entitytag_ID] = ['iCount'=>$iCount,'oTag'=>$oEntityTag];
-                $aSortArray['iCount'][] = $iCount;
+            # Sort Tags by Skeleton Count per Tag
+            $aTopTagsByCount = [];
+            $aSortArray = [];
+            if(count($oEntityTags) > 0) {
+                foreach($oEntityTags as $oEntityTag) {
+                    $iCount = count(CoreController::$aCoreTables['core-entity-tag-entity']->select(['entity_tag_idfs'=>$oEntityTag->Entitytag_ID,'entity_type'=>'skeleton']));
+                    $aTopTagsByCount[$oEntityTag->Entitytag_ID] = ['iCount'=>$iCount,'oTag'=>$oEntityTag];
+                    $aSortArray['iCount'][] = $iCount;
+                }
             }
-        }
-        array_multisort($aSortArray['iCount'],SORT_DESC,$aTopTagsByCount);
+            array_multisort($aSortArray['iCount'],SORT_DESC,$aTopTagsByCount);
 
-        # Only show top tags by count
-        $iMaxTags = 5;
-        $iCount = 0;
-        foreach($aTopTagsByCount as $oTmpTag) {
-            if($iCount == $iMaxTags) {
-                break;
+            # Only show top tags by count
+            $iMaxTags = 5;
+            $iCount = 0;
+            foreach($aTopTagsByCount as $oTmpTag) {
+                if($iCount == $iMaxTags) {
+                    break;
+                }
+                $aFinalTags[] = $oTmpTag;
+                $iCount++;
             }
-            $aFinalTags[] = $oTmpTag;
-            $iCount++;
-        }
-    } catch(\RuntimeException $e) {
+        } catch(\RuntimeException $e) {
 
+        }
     }
 }
 
