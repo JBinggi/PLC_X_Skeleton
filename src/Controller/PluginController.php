@@ -19,7 +19,6 @@ namespace OnePlace\Skeleton\Controller;
 
 use Application\Controller\CoreEntityController;
 use Application\Model\CoreEntityModel;
-use OnePlace\Skeleton\Model\Skeleton;
 use OnePlace\Skeleton\Model\SkeletonTable;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Adapter\AdapterInterface;

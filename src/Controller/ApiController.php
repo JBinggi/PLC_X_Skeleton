@@ -5,7 +5,7 @@
  * Main Controller for Skeleton Api
  *
  * @category Controller
- * @package Application
+ * @package Skeleton
  * @author Verein onePlace
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
