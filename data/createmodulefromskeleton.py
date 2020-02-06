@@ -5,8 +5,10 @@ import os
 import shutil
 import glob
 import errno, stat
+import re
+import pkg_resources
 
-"""  
+"""
 createmodulefromskeleton.py - Create your own module form a oneplace Skeleton
  Renames all modules and cleanup code structure
  Usage: createmodulefromskeleton.py path/to/module modulename
@@ -14,10 +16,12 @@ createmodulefromskeleton.py - Create your own module form a oneplace Skeleton
  @author Verein onePlace
  @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  @license https://opensource.org/licenses/BSD-3-Clause
- @version 1.0.2
+ @version 1.0.3
  @since 1.0.0
 
  # Changelog
+    1.0.3: add new parameter [version]
+           replace all since tags
     1.0.2: replace @since tag in module.php
            add -v verbose log + better output
 """
@@ -42,13 +46,15 @@ aWhiteList = []
 aWhiteList.append("/language/")
 
 sSkeletonName = "Skeleton"
+sSkeletonVersion = ""
+sModuleVersion = "1.0.0"
 sVersionFile = "Module.php"
 
 def printHelp():
   print("Create a new Module based on the current PLC_X_Skeleton")
   print("Run it directly inside /data/")
   print("Using:")
-  print(sys.argv[0] + " path/to/module modulename [-v]")
+  print(sys.argv[0] + " path/to/module modulename [x.x.x] [-v]")
   exit(1)
 
 
@@ -75,10 +81,10 @@ def remove_readonly(func, path, exc_info):
 def getModulname(name, upper = True):
   if(name[0].islower() and upper):
     name = name[0].upper() + name[1:]
-  if(name[0].isupper() and not upper): 
+  if(name[0].isupper() and not upper):
     name = name[0].lower()+ name[1:]
   return name
-  
+
 
 # check if module name is provided
 if len(sys.argv) < 3 :
@@ -87,8 +93,17 @@ if len(sys.argv) < 3 :
 # parse -v param
 # TODO implement arg manager
 if len(sys.argv) >= 4 :
-    if sys.argv[3] == "-v":
-        DEBUG = True
+  for argv in sys.argv :
+    if argv == "-v":
+      DEBUG = True
+    try:
+      if re.search(r'[\d.]+', argv) and len(argv) < 10:
+        sModuleVersion = argv
+        print("Modul Version " + sModuleVersion)
+    except IOError:
+        print()
+
+
 
 sScriptPath = os.path.realpath(__file__)
 sModulePath = sys.argv[1]
@@ -101,14 +116,17 @@ if os.path.exists(sys.argv[1]):
   #print(sModulePath)
   #shutil.rmtree(sModulePath, ignore_errors=False, onerror=remove_readonly)
   exit(1)
-  
+
 #check if the context is right
 try:
   f = open("../src/Module.php", "r")
+  for line in f:
+    if line.find("VERSION") > 0:
+      sSkeletonVersion = re.search(r'(?<=VERSION )*[\d.]+', line).group(0)
+      print("Skeleton Version is " + sSkeletonVersion)
 except IOError:
   print("Error wrong context " + sModulePath + "\n")
   printHelp()
-
 
 
 
@@ -126,10 +144,12 @@ for dir in aToDelDirs:
   try:
     if DEBUG :
       print("delete " + sModulePath+dir)
-    shutil.rmtree(sModulePath+dir, ignore_errors=False, onerror=remove_readonly)
-    iChangeCount += 1
-  except:
-    print("Error while deleting file : ", sModulePath+dir)
+    if os.path.exists(sModulePath+dir) == True:
+      shutil.rmtree(sModulePath+dir, ignore_errors=False, onerror=remove_readonly)
+      iChangeCount += 1
+  except IOError as err:
+    print("Error while deleting file : ", sModulePath+dir + " - " + format(err))
+    exit(2)
 
 print(" " + str(iChangeCount) + " folders deleted")
 iChangeCount=0
@@ -141,9 +161,11 @@ for fileList in aToDelFiles:
       if DEBUG :
         print("delete " + filePath)
       iChangeCount += 1
-      os.remove(filePath)
+      if os.path.exists(filePath) == True:
+        os.remove(filePath)
     except:
       print("Error while deleting file : ", filePath)
+      exit(2)
 
 print(" " + str(iChangeCount) + " files deleted")
 iChangeCount=0
@@ -241,7 +263,6 @@ for root, dirs, files in os.walk(sModulePath):
     # search an replace inside each file
     # look for versions and set it to 1.0.0
     line_count = 0
-    sDefaultVersion = "1.0.0"
     sVersionTag ="@version"
     sSinceTag ="@since"
     try:
@@ -250,31 +271,33 @@ for root, dirs, files in os.walk(sModulePath):
         # not a beauty - but works
         if sSource.find(sVersionFile) > 0 and line.find("VERSION") > 0:
           if DEBUG :
-            print("set version to 1.0.0 in " + sVersionFile + " in Line " + str(line_count))
-          fpW.write("    const VERSION = '1.0.0';\n")
+            print("set " + sVersionTag + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
+          line="    const VERSION = '" + sModuleVersion + "';\n"
+
         elif sSource.find(sVersionFile) > 0 and line.find(sVersionTag) > 0:
           if DEBUG :
-            print("set " + sVersionTag + " to " + sDefaultVersion + " in " + sVersionTag + " at Line " + str(line_count))
-          line = line[:line.find(sVersionTag) + len(sVersionTag)] + " " + sDefaultVersion
-          fpW.write(line+"\n")
-        elif sSource.find(sVersionFile) > 0 and line.find(sSinceTag) > 0:
-          if DEBUG :
-            print("set " + sSinceTag + " to " + sDefaultVersion + " in " + sVersionTag + " at Line " + str(line_count))
-          line = line[:line.find(sSinceTag) + len(sSinceTag)] + " " + sDefaultVersion
-          fpW.write(line+"\n")
-        else:
-          # replace skeleton name
-          sOrig=line
-          line = line.replace(sSkel_S, sModul_S)
-          line = line.replace(sSkel_s, sModul_s)
-          if sOrig != line :
-            if DEBUG :
-              print(sSource + " renaming at Line: " + str(line_count))
-            iChangeCount += 1
+            print("set " + sVersionTag + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
+          line = line[:line.find(sVersionTag) + len(sVersionTag)] + " " + sModuleVersion + "\n"
 
-          fpW.write(line)
+        elif line.find(sSinceTag) > 0:
+          sSinceVersion = re.search(r'[\d.]+', line).group(0)
+          if pkg_resources.parse_version(sSinceVersion) > pkg_resources.parse_version(sModuleVersion) :
+            if DEBUG :
+              print("set " + sSinceTag + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
+            line = line[:line.find(sSinceTag) + len(sSinceTag)] + " " + sModuleVersion + "\n"
+
+        # replace skeleton name
+        sOrig=line
+        line = line.replace(sSkel_S, sModul_S)
+        line = line.replace(sSkel_s, sModul_s)
+        if sOrig != line :
+          if DEBUG :
+            print(sSource + " renaming at Line: " + str(line_count))
+          iChangeCount += 1
+        fpW.write(line)
     except Exception as e:
       print(sModulePath + " Error while renaming file : " + dir + " " + str(e))
+      exit(2)
 
 
     fp.close()
