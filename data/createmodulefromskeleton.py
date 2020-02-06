@@ -16,10 +16,11 @@ createmodulefromskeleton.py - Create your own module form a oneplace Skeleton
  @author Verein onePlace
  @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  @license https://opensource.org/licenses/BSD-3-Clause
- @version 1.0.3
+ @version 1.0.4
  @since 1.0.0
 
  # Changelog
+    1.0.4: replace version in composer.json
     1.0.3: add new parameter [version]
            replace all since tags
     1.0.2: replace @since tag in module.php
@@ -49,6 +50,7 @@ sSkeletonName = "Skeleton"
 sSkeletonVersion = ""
 sModuleVersion = "1.0.0"
 sVersionFile = "Module.php"
+sComposerJson = "composer.json"
 
 def printHelp():
   print("Create a new Module based on the current PLC_X_Skeleton")
@@ -265,6 +267,7 @@ for root, dirs, files in os.walk(sModulePath):
     line_count = 0
     sVersionTag ="@version"
     sSinceTag ="@since"
+    sComposerVersion ='"version"'
     try:
       for line in fp:
         line_count=line_count+1
@@ -274,17 +277,27 @@ for root, dirs, files in os.walk(sModulePath):
             print("set " + sVersionTag + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
           line="    const VERSION = '" + sModuleVersion + "';\n"
 
+        # set all versions tags to current verion
         elif sSource.find(sVersionFile) > 0 and line.find(sVersionTag) > 0:
           if DEBUG :
             print("set " + sVersionTag + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
           line = line[:line.find(sVersionTag) + len(sVersionTag)] + " " + sModuleVersion + "\n"
 
+        # correct all since tags
         elif line.find(sSinceTag) > 0:
           sSinceVersion = re.search(r'[\d.]+', line).group(0)
           if pkg_resources.parse_version(sSinceVersion) > pkg_resources.parse_version(sModuleVersion) :
             if DEBUG :
               print("set " + sSinceTag + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
             line = line[:line.find(sSinceTag) + len(sSinceTag)] + " " + sModuleVersion + "\n"
+
+        #corret composer config file version
+        elif sSource.find(sComposerJson) > 0 and line.find(sComposerVersion) > 0:
+          if DEBUG :
+            print("set " + sComposerVersion + " to " + sModuleVersion + " in " + sSource + " at Line " + str(line_count))
+          line ="\t\t" + sComposerVersion + ': "' + sModuleVersion + '",\n'
+
+
 
         # replace skeleton name
         sOrig=line
