@@ -84,16 +84,33 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 > You should have an own tab for gallery field [how-to add new tab](https://docs.1plc.ch/oneplace-user/formtabs/)
 
 ### Select
-#### Based on onePlace Tag Module 
+#### Based on onePlace Tag Module
+
+The easiest way to use select is with tags. all you have to do is to set the correct `url_list`
+to point to your form and tag type (`category` in this example). OnePlace Core comes with `category` and `state`
+tag already shipped. If you need other tags, [add a new tag first](https://docs.1plc.ch/oneplace-tag/addtag/) 
+ 
 ```sql
-ALTER TABLE `skeleton` ADD `testtag_idfs` INT(11) NOT NULL DEFAULT '0' AFTER `Skeleton_ID`; 
+ALTER TABLE `skeleton` ADD `category_idfs` INT(11) NOT NULL DEFAULT '0' AFTER `Skeleton_ID`; 
 INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
-(NULL, 'select', 'Test Tag', 'testtag_idfs', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '/tag/api/list/skeleton-single_1', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Tag\\Controller\\TagController');
+(NULL, 'select', 'Category', 'category_idfs', 'skeleton-base', 'skeleton-single', 'col-md-3', '', '/tag/api/list/skeleton-single/category', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable', 'add-OnePlace\\Tag\\Controller\\TagController');
 ```
+
 #### Based on onePlace Contact
+
+You can also use the select to point to any skeleton based module with an API that
+has a list function that supports select2. In this example we use the `Contact` Module
+to set a manufacturer.
+
 ```sql
 ALTER TABLE `skeleton` ADD `manufacturer_idfs` INT(11) NOT NULL DEFAULT '0' AFTER `Skeleton_ID`; 
 (NULL, 'select', 'Owner', 'manufacturer_idfs', 'skeletonrequest-base', 'skeletonrequest-single', 'col-md-2', '', '/api/contact/list', '0', '1', '0', 'contact-single', 'OnePlace\\Contact\\Model\\ContactTable','add-OnePlace\\Contact\\Controller\\ContactController'),
+```
+
+#### Simple "yes" or "no" select
+```sql
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
+(NULL, 'select', 'Still in use', 'still_in_use_idfs', 'skeleton-base', 'skeleton-single', 'col-md-2', '', '/application/selectbool', 0, 1, 0, '', 'OnePlace\\BoolSelect', '');
 ```
 #### Custom Data source
 
