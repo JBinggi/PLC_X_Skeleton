@@ -24,15 +24,14 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Container;
 use Application\Controller\CoreEntityController;
-use OnePlace\Skeleton\Controller\PluginController;
 
 class Module {
     /**
      * Module Version
      *
-     * @since 1.0.8
+     * @since 1.0.9
      */
-    const VERSION = '1.0.8';
+    const VERSION = '1.0.9';
 
     /**
      * Load module config file
@@ -71,21 +70,10 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
-                # Plugin Example Controller
-                Controller\PluginController::class => function($container) {
-                    $oDbAdapter = $container->get(AdapterInterface::class);
-                    return new Controller\PluginController(
-                        $oDbAdapter,
-                        $container->get(Model\SkeletonTable::class),
-                        $container
-                    );
-                },
                 # Skeleton Main Controller
                 Controller\SkeletonController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     $tableGateway = $container->get(Model\SkeletonTable::class);
-                    # hook plugin
-                    CoreEntityController::addHook('skeleton-add-before',(object)['sFunction'=>'testFunction','oItem'=>new PluginController($oDbAdapter,$tableGateway,$container)]);
                     return new Controller\SkeletonController(
                         $oDbAdapter,
                         $container->get(Model\SkeletonTable::class),
