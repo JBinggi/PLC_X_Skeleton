@@ -29,9 +29,9 @@ class Module {
     /**
      * Module Version
      *
-     * @since 1.0.9
+     * @since 1.0.0
      */
-    const VERSION = '1.0.9';
+    const VERSION = '1.0.10';
 
     /**
      * Load module config file
