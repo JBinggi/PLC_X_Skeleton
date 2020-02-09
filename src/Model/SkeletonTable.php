@@ -43,12 +43,13 @@ class SkeletonTable extends CoreEntityTable {
      * Get Skeleton Entity
      *
      * @param int $id
+     * @param string $sKey
      * @return mixed
      * @since 1.0.0
      */
-    public function getSingle($id) {
+    public function getSingle($id,$sKey = 'Skeleton_ID') {
         # Use core function
-        return $this->getSingleEntity($id,'Skeleton_ID');
+        return $this->getSingleEntity($id,$sKey);
     }
 
     /**
