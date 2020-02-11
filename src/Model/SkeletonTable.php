@@ -60,46 +60,11 @@ class SkeletonTable extends CoreEntityTable {
      * @since 1.0.0
      */
     public function saveSingle(Skeleton $oSkeleton) {
-        $aData = [
+        $aDefaultData = [
             'label' => $oSkeleton->label,
         ];
 
-        $aData = $this->attachDynamicFields($aData,$oSkeleton);
-
-        $id = (int) $oSkeleton->id;
-
-        if ($id === 0) {
-            # Add Metadata
-            $aData['created_by'] = CoreController::$oSession->oUser->getID();
-            $aData['created_date'] = date('Y-m-d H:i:s',time());
-            $aData['modified_by'] = CoreController::$oSession->oUser->getID();
-            $aData['modified_date'] = date('Y-m-d H:i:s',time());
-
-            # Insert Skeleton
-            $this->oTableGateway->insert($aData);
-
-            # Return ID
-            return $this->oTableGateway->lastInsertValue;
-        }
-
-        # Check if Skeleton Entity already exists
-        try {
-            $this->getSingle($id);
-        } catch (\RuntimeException $e) {
-            throw new \RuntimeException(sprintf(
-                'Cannot update skeleton with identifier %d; does not exist',
-                $id
-            ));
-        }
-
-        # Update Metadata
-        $aData['modified_by'] = CoreController::$oSession->oUser->getID();
-        $aData['modified_date'] = date('Y-m-d H:i:s',time());
-
-        # Update Skeleton
-        $this->oTableGateway->update($aData, ['Skeleton_ID' => $id]);
-
-        return $id;
+        return $this->saveSingleEntity($oSkeleton,'Skeleton_ID',$aDefaultData);
     }
 
     /**

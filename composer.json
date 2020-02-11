@@ -3,7 +3,7 @@
     "description": "onePlace Skeleton Module",
     "type": "oneplace-module",
     "license": "BSD-3-Clause",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "keywords": [
         "laminas",
         "mvc",
@@ -14,7 +14,7 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "^8",
-        "oneplace/oneplace-core": "^1.0.15",
+        "oneplace/oneplace-core": "^1.0.18",
         "laminas/laminas-test": "^3.3.0"
     },
     "require": {
