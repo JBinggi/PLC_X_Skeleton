@@ -3,7 +3,7 @@
     "description": "onePlace Skeleton Module",
     "type": "oneplace-module",
     "license": "BSD-3-Clause",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "keywords": [
         "laminas",
         "mvc",
@@ -19,7 +19,7 @@
     },
     "require": {
         "php": "^7.1",
-        "oneplace/oneplace-core": "^1.0.7",
+        "oneplace/oneplace-core": "^1.0.19",
         "phpoffice/phpspreadsheet": "^1.10"
     },
     "autoload": {
